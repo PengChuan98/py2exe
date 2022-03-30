@@ -1,0 +1,6 @@
+.vs
+x64
+__pycache__
+*.vcxproj
+*.vcxproj.*
+*.sln
