@@ -7,8 +7,8 @@ def MessageBox(msg, info = 'Message'):
     return 0
 os.MessageBox = MessageBox
 
+MessageBox("this is entry main file")
 
-print("test")
-os.MessageBox("test")
+print("Test String.....")
 
 

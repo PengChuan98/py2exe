@@ -5,3 +5,6 @@ __pycache__
 *.vcxproj.*
 *.sln
 *.pdb
+*.rc
+*.aps
+*.exe
