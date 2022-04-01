@@ -208,7 +208,7 @@ bool PyTub::RunFile(const wchar_t* file)
 	wsprintf(msg, L"Loading File %ws", file);
 	Logging::Info(msg);
 
-	int flag = PyRun_SimpleFile(fp, PathFindFileNameA(Py_EncodeLocale(file, NULL)));
+	int flag = PyRun_SimpleFile(fp, Py_EncodeLocale(file, NULL));
 
 	wsprintf(msg, L"FileRun return %d", flag);
 	Logging::Info(msg);

@@ -8,3 +8,5 @@ __pycache__
 *.rc
 *.aps
 *.exe
+backup
+*.bat
