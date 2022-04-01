@@ -1,16 +1,21 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "pytub.h"
 #include <vector>
+#include <iostream>
+
+void GetCommand(PyTub* pytub);
 
 #ifdef WINDOWS_
 #pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 int WINAPI
-main(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR args, int show)
+main(HINSTANCE hInst, HINSTANCE hPrevInst, char* args[], int show)
+//main(int argc, char* argv[])
 {
 	AttachParentConsole();
 	ClearConsole();
 	Logging::Console = false;
 #else
-int main(int argc, char* argv[])
+int main(int argc, char* args[])
 {
 	Logging::Console = true;
 #endif // WINDOWS_
@@ -20,6 +25,8 @@ int main(int argc, char* argv[])
 	PyTub pytub = PyTub();
 	pytub.InitRuntime();
 	pytub.Print();
+
+	GetCommand(&pytub);
 
 	if (pytub.GetFlag())
 	{
@@ -60,10 +67,34 @@ int main(int argc, char* argv[])
 		}
 
 	}
+
 #ifdef WINDOWS_
 	Logging::Info("Detach Parent Console");
 	DetachParentConsole();
 #endif // WINDOWS_
 	
-	exit(0);
+	return 0;
+}
+
+void GetCommand(PyTub* pytub)
+{
+	LPWSTR* _argvw;
+	int _argc;
+	wstring _args;
+	_args = GetCommandLineW();
+	_argvw = CommandLineToArgvW(_args.c_str(), &_argc);
+	if (_argvw == NULL) {
+		Logging::Error("Error in CommandLineToArgvW()");
+		return;
+	}
+
+	 //In the WinMain mode, the py_func of Py_Main has been wrong, the reason is unknown
+
+
+	// using PyRun_SimpleString
+	if (1)
+	//if (_argc == 2 && StrCmp(_argvw[1], L"-c") == 0)
+	{
+		pytub->SimpleConsole();
+	}
 }

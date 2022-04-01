@@ -252,7 +252,6 @@ bool PyTub::InteractiveMode(int argc, char** argv)
 	{
 		return false;
 	}
-
 	vector<wchar_t*> v_argv;
 	vector<wstring> v_argc;
 
@@ -286,6 +285,56 @@ bool PyTub::InteractiveMode(int argc, char** argv)
 	return true;
 }
 
+void GetLine(char* line)
+{
+	memset(line, '\0', sizeof(char) * MAX_LENGTH);
+	scanf("%s", line);
+}
+
+bool PyTub::InteractiveMode()
+{
+	// load args
+	LPWSTR* argvw;
+	int argc;
+	wstring args;
+
+	args = GetCommandLineW();
+	argvw = CommandLineToArgvW(args.c_str(), &argc);
+	if (argvw == NULL) {
+		Logging::Error("Error in CommandLineToArgvW()");
+		return false;
+	}
+	
+	return InteractiveMode(argc, argvw);
+}
+
+
+bool PyTub::SimpleConsole()
+{
+	if (!flag)
+	{
+		return false;
+	}
+
+	char* line = (char*)malloc(sizeof(char) * MAX_LENGTH);
+	int res = strcmp(line, "exit");
+
+	while (true)
+	{
+		printf(" >>> ");
+		GetLine(line);
+		res = strcmp(line, "exit\n");
+		if (res == 0)break;
+		//RunString(line);
+		printf("%s", line);
+
+	}
+
+	free(line);
+	return true;
+}
+
+
 void PyTub::Print()
 {
 	printf("------------------------------------------------------------\n");
@@ -316,10 +365,16 @@ bool PyTub::GetFlag()
 
 void AttachParentConsole()
 {
+	//AllocConsole();
+	//freopen("CONIN$", "r", stdin);
+	//freopen("CONOUT$", "w", stdout);
+	//freopen("CONOUT$", "w", stderr);
+	FreeConsole();
 	if (AttachConsole(ATTACH_PARENT_PROCESS))
 	{
-		freopen("CONOUT$", "w", stdout);
-		freopen("CONOUT$", "w", stderr);
+		freopen("CONIN$", "r+t", stdin);
+		freopen("CONOUT$", "w+t", stdout);
+		freopen("CONOUT$", "w+t", stderr);
 		//int fd = _fileno(stdout);
 		//if (fd >= 0) {
 		//	std::string fn = std::to_string(fd);

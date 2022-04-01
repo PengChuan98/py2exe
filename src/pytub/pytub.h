@@ -56,7 +56,11 @@ public:
 	//bool RunFunc(T t);
 	bool InteractiveMode(int argc, wchar_t** argv);
 	bool InteractiveMode(int argc, char** argv);
+	bool InteractiveMode();
 
+	// using PyRun_SimpleString to simulate Python Console ( Py_Main )
+	bool SimpleConsole();
+	
 public:
 	void Print();
 
@@ -91,3 +95,4 @@ public:
 void AttachParentConsole();
 void ClearConsole();
 void DetachParentConsole();
+
