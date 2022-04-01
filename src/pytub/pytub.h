@@ -5,6 +5,10 @@
 #include <clocale>
 #include <string>
 
+#include <iostream>
+#include <fstream>
+#include <conio.h>
+#include <stdio.h>
 #include <shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
 
@@ -95,4 +99,4 @@ public:
 void AttachParentConsole();
 void ClearConsole();
 void DetachParentConsole();
-
+bool RedirectConsoleIO();

@@ -26,7 +26,7 @@ int main(int argc, char* args[])
 	pytub.InitRuntime();
 	pytub.Print();
 
-	GetCommand(&pytub);
+	//GetCommand(&pytub);
 
 	if (pytub.GetFlag())
 	{
@@ -89,12 +89,19 @@ void GetCommand(PyTub* pytub)
 	}
 
 	 //In the WinMain mode, the py_func of Py_Main has been wrong, the reason is unknown
-
-
+	if (RedirectConsoleIO())
+	{
+		printf("debug 02\n");
+		pytub->InteractiveMode();
+	}
+	else
+	{
+		Logging::Error("RedirectConsoleIO ERROR!");
+	}
 	// using PyRun_SimpleString
-	if (1)
+	//if (1)
 	//if (_argc == 2 && StrCmp(_argvw[1], L"-c") == 0)
 	{
-		pytub->SimpleConsole();
+		
 	}
 }
